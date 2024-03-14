@@ -1,7 +1,19 @@
-select
+
+with
+
+source as(
+    select * from {{source('stripe', 'payment') }}
+
+),
+
+staged as (
+select 
     orderid as order_id,
     paymentmethod as payment_method,
     status,
     amount/100 as amount
+from source
 
-from `dbt-tutorial`.stripe.payment
+)
+
+select * from staged
